@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<h1>Welcome to Jeopardy App</h1>
+<html>
+    <head>
+        <script src="app.js"></script>
+        <meta charset = "utf-8">
+        <link rel = "stylesheet" href="style.css">
+        <title>Search</title>
+    </head>
+    <body>
+        <div class = "word"> Generate a Question</div>
+        <div class="search-box"> Date Aired (yyyy-mm-dd)
+            <input class ="search-txt" id="date" type = "text" name = "" placeholder = "Type to search" onkeypress="searchQuestion(event)" >
+        </div>
+       
+        <div class="search-box"> Trivia Category (lowercase please)
+                <input class ="search-txt" id = "category" type = "text" name = "" placeholder = "Type to search" onkeypress = "searchQuestion(event)">
+        </div>
+    
+        <div class="search-box"> Difficulty (100 to 1000)
+                <input class ="search-txt" id = "difficulty" type = "text" name = "" placeholder = "Type to search" onkeypress = "searchQuestion(event)">
+            </div>
+
+            <!-- <button class="button" onclick = "searchQuestion(event)" id = "difficulty" value = "100" >100</button>
+            <button class="button" onclick = "clickTest()" >200</button>
+            <button class="button" onclick = "clickTest()" >300</button>
+            <button class="button" onclick = "clickTest()" >400</button>
+            <button class="button" onclick = "clickTest()" >500</button>
+            <button class="button" onclick = "clickTest()" >600</button>
+            <button class="button" onclick = "clickTest()" >700</button>
+            <button class="button" onclick = "clickTest()" >800</button>
+            <button class="button" onclick = "clickTest()" >900</button>
+            <button class="button" onclick = "clickTest()" >1000</button> -->
+     
+   
+        <div class = "word"> .</div>
+        <div class = "word"> .</div>
+        <div class = "word"> .</div>
+        <div class = "word"> Generate Random Gameboard</div>
+        <button class = "button" onclick="generateRandomGameBoard()">Reset</button>
+
+        <div class="grid-container">
+            <div class="grid-item">Random Category</div>
+            <div class="grid-item">Random Category</div>
+            <div class="grid-item">Random Category</div>
+            <div class="grid-item">Random Category</div>
+            <div class="grid-item">Random Category</div>
+            
+          
+            <div type="button"  class="button grid-item" id = "Column1(100)" onclick="clickTest1()">100</div>
+            <div type="button"  class="button grid-item" id = "Column2(100)" onclick="clickTest11()">100</div>
+            <div type="button"  class="button grid-item" id = "Column3(100)" onclick="clickTest21()">100</div>
+            <div type="button"  class="button grid-item" id = "Column4(100)" onclick="clickTest31()">100</div>
+            <div type="button"  class="button grid-item" id = "Column5(100)" onclick="clickTest41()">100</div>
+            <div type="button"  class="button grid-item" id = "Column1(200)" onclick="clickTest2()">200</div>
+            <div type="button"  class="button grid-item" id = "Column2(200)" onclick="clickTest12()">200</div>
+            <div type="button"  class="button grid-item" id = "Column3(200)" onclick="clickTest22()">200</div>
+            <div type="button"  class="button grid-item" id = "Column4(200)" onclick="clickTest32()">200</div>
+            <div type="button"  class="button grid-item" id = "Column5(200)" onclick="clickTest42()">200</div>
+            <div type="button"  class="button grid-item" id = "Column1(300)" onclick="clickTest3()">300</div>
+            <div type="button"  class="button grid-item" id = "Column2(300)" onclick="clickTest13()">300</div>
+            <div type="button"  class="button grid-item" id = "Column3(300)" onclick="clickTest23()">300</div>
+            <div type="button"  class="button grid-item" id = "Column4(300)" onclick="clickTest33()">300</div>
+            <div type="button"  class="button grid-item" id = "Column5(300)" onclick="clickTest43()">300</div>
+            <div type="button"  class="button grid-item" id = "Column1(400)" onclick="clickTest4()">400</div>
+            <div type="button"  class="button grid-item" id = "Column2(400)" onclick="clickTest14()">400</div>
+            <div type="button"  class="button grid-item" id = "Column3(400)" onclick="clickTest24()">400</div>
+            <div type="button"  class="button grid-item" id = "Column4(400)" onclick="clickTest34()">400</div>
+            <div type="button"  class="button grid-item" id = "Column5(400)" onclick="clickTest44()">400</div>
+            <div type="button"  class="button grid-item" id = "Column1(500)" onclick="clickTest5()">500</div>
+            <div type="button"  class="button grid-item" id = "Column2(500)" onclick="clickTest15()">500</div>
+            <div type="button"  class="button grid-item" id = "Column3(500)" onclick="clickTest25()">500</div>
+            <div type="button"  class="button grid-item" id = "Column4(500)" onclick="clickTest35()">500</div>
+            <div type="button"  class="button grid-item" id = "Column5(500)" onclick="clickTest45()">500</div>
+            <div type="button"  class="button grid-item" id = "Column1(600)" onclick="clickTest6()">600</div>
+            <div type="button"  class="button grid-item" id = "Column2(600)" onclick="clickTest16()">600</div>
+            <div type="button"  class="button grid-item" id = "Column3(600)" onclick="clickTest26()">600</div>
+            <div type="button"  class="button grid-item" id = "Column4(600)" onclick="clickTest36()">600</div>
+            <div type="button"  class="button grid-item" id = "Column5(600)" onclick="clickTest46()">600</div>
+            <div type="button"  class="button grid-item" id = "Column1(700)" onclick="clickTest7()">700</div>
+            <div type="button"  class="button grid-item" id = "Column2(700)" onclick="clickTest17()">700</div>
+            <div type="button"  class="button grid-item" id = "Column3(700)" onclick="clickTest27()">700</div>
+            <div type="button"  class="button grid-item" id = "Column4(700)" onclick="clickTest37()">700</div>
+            <div type="button"  class="button grid-item" id = "Column5(700)" onclick="clickTest47()">700</div>
+            <div type="button"  class="button grid-item" id = "Column1(800)" onclick="clickTest8()">800</div>
+            <div type="button"  class="button grid-item" id = "Column2(800)" onclick="clickTest18()">800</div>
+            <div type="button"  class="button grid-item" id = "Column3(800)" onclick="clickTest28()">800</div>
+            <div type="button"  class="button grid-item" id = "Column4(800)" onclick="clickTest38()">800</div>
+            <div type="button"  class="button grid-item" id = "Column5(800)" onclick="clickTest48()">800</div>
+            <div type="button"  class="button grid-item" id = "Column1(900)" onclick="clickTest9()">900</div>
+            <div type="button"  class="button grid-item" id = "Column2(900)" onclick="clickTest19()">900</div>
+            <div type="button"  class="button grid-item" id = "Column3(900)" onclick="clickTest29()">900</div>
+            <div type="button"  class="button grid-item" id = "Column4(900)" onclick="clickTest39()">900</div>
+            <div type="button"  class="button grid-item" id = "Column5(900)" onclick="clickTest49()">900</div>
+            <div type="button"  class="button grid-item" id = "Column1(1000)" onclick="clickTest10()">1000</div>
+            <div type="button"  class="button grid-item" id = "Column2(1000)" onclick="clickTest20()">1000</div>
+            <div type="button"  class="button grid-item" id = "Column3(1000)" onclick="clickTest30()">1000</div>
+            <div type="button"  class="button grid-item" id = "Column4(1000)" onclick="clickTest40()">1000</div>
+            <div type="button"  class="button grid-item" id = "Column5(1000)" onclick="clickTest50()">1000</div>
+          </div>
+    </body>
+</html>
+
+    
+
+  
