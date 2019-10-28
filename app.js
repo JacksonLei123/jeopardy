@@ -1,6 +1,35 @@
 var buttonClick 
 
+window.onload = function() {
+    var container = document.getElementById("grid-container");
+    
+    // categories:
+    for (var i=0; i<5; i++) {
+        var categoryNode = document.createElement("div");
+        categoryNode.classList.add("grid-item");
+        var categoryName = document.createTextNode("Random Category");
+        categoryNode.appendChild(categoryName);
+        container.appendChild(categoryNode);
+    }
 
+    // buttons:
+    for (var i=1; i<6; i++) {
+        for (var j=0; j<5; j++) {
+            var rowNode = document.createElement("div");
+            rowNode.classList.add("grid-item");
+            rowNode.classList.add("button");
+            var rowName = document.createTextNode(i +"00");
+            rowNode.appendChild(rowName);
+            
+            // change the type, onclick, and id
+            rowNode.setAttribute("type", "button");
+            rowNode.setAttribute("onclick", "clickTest(this.id)");
+            rowNode.setAttribute("id", j + "_" + i + "00");
+
+            container.appendChild(rowNode);
+        }
+    }
+}
 
 function searchDate(event) {
     if (event.keyCode==13){
@@ -28,71 +57,11 @@ function searchCategory(event) {
         console.log(JSON.parse(xmlHttp.responseText));
     }
 }
+
 // Let's start by generating a question based on a bunch of filters
 function searchQuestion(event){
      // this is to test for whenever the user presses the ENTER key, any event that occurs happens right after the ENTER key is pressed
     if (event.keyCode == 13){
-/*        // in the html doc, there should be a search box under the Generate Question section where you can type in whatever value and search the question
-        // this just takes whatever value I take in using the getElementById function
-        var date = document.getElementById('date').value;
-        var category = document.getElementById('category').value;
-        var difficulty = document.getElementById('difficulty').value
-        
-        // now one bad trait about this API is that it only takes in categories by their ID NUMBERS. Really isn't exactly user friendly, so 
-        // I decided to take it upon myself to find a way to make the category searchbox take in a STRING instead of an INT
-
-        // this should generate an array of all questions by category
-        var categoryFinder = new XMLHttpRequest();
-   //   categoryFinder.open("GET", "http://jservice.io/api/clues?min_date=" +date+  "&max_date=" +date + "&value="+ difficulty, false );
-        categoryFinder.open("GET", "http://jservice.io/api/categories?count=100", false);
-        categoryFinder.send(null);
-        console.log(JSON.parse(categoryFinder.responseText));
-
-        // here i just created a new variable for the array as to eliminate any convolusion 
-        var categoryFinderArray = JSON.parse(categoryFinder.responseText);
-        var i = 0;
-        var j = 0;
-        var categoryID = "";
-     //   for (j; j<1000; j++) {
-            console.log(categoryFinderArray.length);
-
-            // now, I want to loop through my array and find wherever the "category title" is the same as the STRING I type in the category search box
-            for(i = 0; i<categoryFinderArray.length; i++){
-                
-                // if I find a category title equal to my string, then I want to set a prior variable to the CATEGORYID of the element I found so I can use 
-                // it to actually generate the question
-                if(category == categoryFinderArray[i].title) {
-                    categoryID = categoryFinderArray[i].id;
-                    break;
-            } 
-                // oops this gets a little tricky. What if I don't find any elements? That is a very likely scenario since this API only displays
-                // at most 100 categories at a time! Oh dear! Well not to worry there is a pagination function that can let me look at the next 100 categories...
-                // this if statement makes use of this pagination, so if i is equal to 100, or the for loop is almost reaching the end of the array, 
-                // create a new Array to loop through but this time, containing different possible questions due to OFFSET
-                if(i == categoryFinderArray.length - 1){
-                
-                    var newCategoryFinder = new XMLHttpRequest();
-             //       newCategoryFinder.open("GET", "http://jservice.io/api/clues?min_date=" + date+ "&max_date=" +date+ "&value="+ difficulty + "&offset=" + j+1 + "00", false);
-                    newCategoryFinder.open("GET", "http://jservice.io/api/categories?count=100&offset=" + j +"00");
-                    console.log("asdflad" + j+1);
-                    newCategoryFinder.send(null);
-                    var newCategoryFinderArray = JSON.parse(newCategoryFinder.responseText);
-                    categoryFinderArray = newCategoryFinderArray;
-                    i = 0;
-                    j++;
-                    
-                }
-                
-                console.log(j);
-                if(j >= 20 && j <= 22){
-                    alert("Seems like the program is running too long. Try adding more filters");
-                    break;
-                }
-                
-        }  */
-        
-
-   // } 
         var date = document.getElementById('date').value;
         var category = document.getElementById('category').value;
         var difficulty = document.getElementById('difficulty').value
@@ -171,6 +140,35 @@ function generateRandomGameBoard(){
         
         columnNames[j].innerHTML = categories[j].category.title;
        
+    }
+}
+
+function clickTest(clickedId) {
+    console.log(clickedId[0]);
+    console.log(clickedId[2]);
+
+    document.getElementById(clickedId).style.backgroundColor = 'red';
+    var category_id0 = JSON.parse(a.responseText)[clickedId[0]].category_id;
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://jservice.io/api/clues?category=" + category_id0, false);
+    xmlHttp.send(null);
+    var categoryArray = JSON.parse(xmlHttp.responseText);
+    // console.log(categoryArray);
+
+    var i = 0;
+    for(i = 0; i< categoryArray.length; i++){
+        
+        if(categoryArray[i].value == clickedId[2] + "00"){
+            alert("Question:" + " "+ categoryArray[i].question);
+            alert("Answer:" + " "+categoryArray[i].answer);
+            break;
+        }
+
+        if(i == categoryArray.length-1){
+            alert("there is no question of this value in this particular category");
+        }
+
     }
 }
 
