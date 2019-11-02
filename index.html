@@ -8,23 +8,34 @@
         <title>Search</title>
     </head>
     <body>
-        <div class = "word"> Generate a Question</div>
+        <div class = "word"> Generate a Question (Don't need to use all filters at once) </div>
         <div class="search-box"> Date Aired (yyyy-mm-dd)
             <input class ="search-txt" id="date" type = "text" name = "" placeholder = "Type to search" onkeypress="searchQuestion(event)" >
         </div>
        
-        <div class="search-box"> Trivia Category (lowercase please)
+        <div class="search-box"> Category Name (lowercase please)
                 <input class ="search-txt" id = "category" type = "text" name = "" placeholder = "Type to search" onkeypress = "searchQuestion(event)">
+        </div>
+
+        <div class="search-box"> Category ID (use if the Name filter doesn't work as well)
+            <input class ="search-txt" id = "categoryid" type = "text" name = "" placeholder = "Type to search" onkeypress = "searchQuestion(event)">
         </div>
     
         <div class="search-box"> Difficulty (100 to 1000)
                 <input class ="search-txt" id = "difficulty" type = "text" name = "" placeholder = "Type to search" onkeypress = "searchQuestion(event)">
             </div>
+        <button class = "button" onclick = "clearQuestions()">Clear</button>
+        <div class = "word">.</div>
+        <div class = "word">.</div>
+        <div class = "word">.</div>
+        <div class = "container" id = "QandAcontainer"> </div>   
 
-        <div class = "word"> .</div>
-        <div class = "word"> .</div>
-        <div class = "word"> .</div>
+        <div class = "word">.</div>
+        <div class = "word">.</div>
+        <div class = "word">.</div>
+           
         <div class = "word"> Generate Random Gameboard</div>
+
         <button class = "button" onclick="generateRandomGameBoard()">Reset</button>
 
         <div class="grid-container" id="grid-container">
