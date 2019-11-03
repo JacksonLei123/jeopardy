@@ -30,35 +30,10 @@ window.onload = function() {
         }
     }
 
-    generateRandomGameBoard();
+  //  generateRandomGameBoard();
 }
 
-function searchDate(event) {
-    if (event.keyCode==13){
-        var date = document.getElementById('date').value;
-        
-        // console.log(date);
-
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", "http://jservice.io/api/clues?min_date=" +date+  "&max_date=" +date, false ); // false for synchronous request
-        xmlHttp.send( null );
-        console.log(JSON.parse(xmlHttp.responseText));
-        // console.log(JSON.parse(xmlHttp.responseText)[0].id);
-
-        
-    }
-}
-
-function searchCategory(event) {
-    if (event.keyCode == 13){
-        var category = document.getElementById('category').value;
-
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://jservice.io/api/clues?category=" + category, false);
-        xmlHttp.send(null);
-        console.log(JSON.parse(xmlHttp.responseText));
-    }
-}
+var variable;
 // Let's start by generating a question based on a bunch of filters
 function searchQuestion(event){
      // this is to test for whenever the user presses the ENTER key, any event that occurs happens right after the ENTER key is pressed
@@ -95,6 +70,7 @@ function searchQuestion(event){
                 alert("there is no such question");
             } else {
                 
+                variable = JSON.parse(xmlHttp.responseText);
                 for (var i = 0; i < 10; i++){
                     if(JSON.parse(xmlHttp.responseText)[i] == null){
                         break;
@@ -107,6 +83,20 @@ function searchQuestion(event){
                     categoryNode.appendChild(Question);
                     categoryNode.appendChild(Answer);
                     container.appendChild(categoryNode);
+
+                    // make a button/input node
+                    // then append it to categoryNode
+
+                    var buttonNode = document.createElement("button");
+                    buttonNode.classList.add("button");
+                    categoryNode.appendChild(buttonNode);
+                    buttonNode.innerHTML = 'save';
+
+                    buttonNode.setAttribute("type", "button");
+                    buttonNode.setAttribute("onclick", "saveFunction("+i+")");
+                    buttonNode.setAttribute("id", variable[i]);
+                    
+
                 }
             }
             return;
@@ -119,7 +109,6 @@ function searchQuestion(event){
             categoryFinder.send(null);
             var categoryFinderArray = JSON.parse(categoryFinder.responseText);
         
-
             for(i = 0; i < categoryFinderArray.length; i++){
                 
               if(category == categoryFinderArray[i].category.title) {
@@ -137,7 +126,7 @@ function searchQuestion(event){
                     if(JSON.parse(xmlHttp.responseText).length == 0){
                         alert("there is no such question");
                     } else {
-
+                        variable = JSON.parse(xmlHttp.responseText);
                         for (var i = 0; i < 10; i++){
                             if(JSON.parse(xmlHttp.responseText)[i] == null){
                                 break;
@@ -151,6 +140,18 @@ function searchQuestion(event){
                             categoryNode.appendChild(Question);
                             categoryNode.appendChild(Answer);
                             container.appendChild(categoryNode);
+
+
+                            // make a button/input node
+                            // then append it to categoryNode
+                            var buttonNode = document.createElement("button");
+                            buttonNode.classList.add("button");
+                            categoryNode.appendChild(buttonNode);
+                            buttonNode.innerHTML = 'save';
+
+                            buttonNode.setAttribute("type", "button");
+                            buttonNode.setAttribute("onclick", "saveFunction("+i+")");
+                            buttonNode.setAttribute("id", variable[i]);
                         }
                     return;
                     }
@@ -158,7 +159,7 @@ function searchQuestion(event){
             }
             console.log(j);
             if(j == 20){
-                alert("Seems like the program is running too long. Try adding more filters");
+                alert("Seems like the program is running too long. Either this question doesn't exist or you don't have enough filters");
                 break;
             }
 
@@ -175,8 +176,22 @@ function clearQuestions() {
 
 }
 
+function saveFunction(i){
+    console.log("j");
+    console.log(variable[0].question);
+    var container = document.getElementById("savedQuestions");
+    var questionNode = document.createElement("div");
+    questionNode.classList.add("questions");
 
-var a;
+    var Question = document.createTextNode("Question: " + variable[i].question);
+    var Answer = document.createTextNode(" Answer: " +variable[i].answer);
+    questionNode.appendChild(Question);
+    questionNode.appendChild(Answer);
+    container.appendChild(questionNode);
+
+}
+
+// var a;
 var replacementArray;
 var replacementArray2;
 function generateRandomGameBoard(){
@@ -187,44 +202,55 @@ function generateRandomGameBoard(){
         colorer[i].style.backgroundColor = 'blue';
     }
     
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://jservice.io/api/random?count=100", false);
-    xmlHttp.send(null);
-    //console.log(JSON.parse(xmlHttp.responseText));
- 
-    a = xmlHttp;
-    // console.log(JSON.parse(a.responseText));
-    
-    var clues = JSON.parse(xmlHttp.responseText);
     replacementArray = [];
     replacementArray2 = [];
-
-    for(var i = 0; i< clues.length; i++){
-
+    var paginationCounter = 0;
+    while (replacementArray.length < 6) {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://jservice.io/api/clues?category=" + clues[i].category_id + "&value=100", false);
+        xmlHttp.open("GET", "http://jservice.io/api/random?count=100", false);
         xmlHttp.send(null);
-        var categoryArray = JSON.parse(xmlHttp.responseText);
+        var clues = JSON.parse(xmlHttp.responseText);
+        console.log(clues);
 
-        if(categoryArray.length != 0){
-            if (!replacementArray.includes(clues[i].category_id)){
-                // check if categoryArray[randomNumber] already exists in replacementArray
+        for(var i = 0; i< clues.length; i++){
 
-               replacementArray.push(clues[i].category_id);
-               replacementArray2.push(clues[i]);
-                console.log(clues[i].category_id);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "http://jservice.io/api/clues?category=" + clues[i].category_id + "&value=100", false);
+            xmlHttp.send(null);
+            var categoryArray = JSON.parse(xmlHttp.responseText);
+            console.log(categoryArray);
+    
+            if(categoryArray.length != 0){
+                if (!replacementArray.includes(clues[i].category_id)){
+                    // check if categoryArray[randomNumber] already exists in replacementArray
+                    replacementArray.push(clues[i].category_id);
+                    replacementArray2.push(clues[i]);
+                    console.log(clues[i].category_id);
+                    console.log(replacementArray2);
+                    console.log(replacementArray2.length);
+                }
             }
-        }
-        if(replacementArray.length == 6){
-            break;
+            if(i == clues.length - 1){
+                paginationCounter++;
+            }
+
+           
+            
+    
+            if(replacementArray2.length == 6){
+                break;
+            }
+
+    
         }
         
 
+        
     }
 
 
     var columnNames = document.getElementsByClassName('grid-item');
-    console.log(clues.length);
+    // console.log(clues.length);
     var j = 0;
     for(j = 0; j< 6; j++) {
         
